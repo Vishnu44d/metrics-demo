@@ -1,0 +1,27 @@
+global:
+  resolve_timeout: 10m
+route:
+  group_by: ['...']
+  repeat_interval: 25m
+  receiver: prod_flock
+  routes:
+    - match_re:
+        poc: .*SRE.*
+      continue: true
+      receiver: prod_flock
+    - match_re:
+        poc: .*DEV.*
+      continue: true
+      receiver: dev_flock
+
+receivers:
+- name: prod_flock
+  webhook_configs:
+  - url: "http://127.0.0.1:8888/webhook"
+    send_resolved: true
+
+- name: dev_flock
+  webhook_configs:
+  - url: "http://127.0.0.1:8889/webhook"
+    send_resolved: true
+

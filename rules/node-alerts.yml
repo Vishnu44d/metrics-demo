@@ -1,0 +1,13 @@
+---
+groups:
+  - name: nodealert.rules
+    rules:
+    - alert: BoxDown
+      expr: up == 0
+      for: 1m
+      labels:
+        severity: critical
+        poc: DEV
+      annotations:
+        description: 'Box {{$labels.instance}} Down for last 5 min.'
+
